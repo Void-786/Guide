@@ -1,0 +1,32 @@
+server:
+  port: 8585
+
+spring:
+  application:
+    name: Guide
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/guide
+    username: root
+    password: Void@786
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/guide
+
+  main:
+    allow-circular-references: true
+
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          mongodb:
+            core:
+                MongoTemplate: DEBUG
