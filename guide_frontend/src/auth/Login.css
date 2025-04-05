@@ -175,6 +175,7 @@ body {
   font-size: 0.95rem;
   transition: all 0.3s ease;
   background-color: #f8f9fa;
+  color: #1a1a1a;
 }
 
 .form-group input:focus {
@@ -182,6 +183,7 @@ body {
   border-color: #4a90e2;
   box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
   background-color: white;
+  color: #1a1a1a;
 }
 
 .login-button {
