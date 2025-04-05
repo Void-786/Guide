@@ -1,9 +1,12 @@
 package com.project.guide_backend.Dto;
 
-import com.project.guide_backend.modal.Role;
+import com.project.guide_backend.modal.User.Role;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class AuthRequest {
     private String fullName;
     private String email;

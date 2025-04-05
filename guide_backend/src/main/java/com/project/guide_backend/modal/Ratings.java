@@ -1,29 +1,27 @@
 package com.project.guide_backend.modal;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "profiles") //Mentor
-public class Profile {
+@Entity
+public class Ratings {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
-    private Long userId;
+    private Long id;
+    private String mentorId;
 
-    private String bio;
-    private byte[] profilePicture;
-    private List<String> skills;
+    @Size(min = 0, max = 5, message = "Rating must be between 0 and 5")
+    private Integer rating;
 }

@@ -1,9 +1,9 @@
 package com.project.guide_backend.repository;
 
-import com.project.guide_backend.modal.User.MentorProfile;
+import com.project.guide_backend.modal.Testimonials;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @EnableMongoRepositories
-public interface ProfileRepository extends MongoRepository<MentorProfile, String> {
+public interface TestimonialsRepository extends MongoRepository<Testimonials, Long> {
 }

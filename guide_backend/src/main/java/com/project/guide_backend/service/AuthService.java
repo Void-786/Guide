@@ -1,6 +1,6 @@
 package com.project.guide_backend.service;
 
-import com.project.guide_backend.modal.User;
+import com.project.guide_backend.modal.User.Users;
 import com.project.guide_backend.repository.UserRepository;
 import com.project.guide_backend.security.Jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -16,23 +16,23 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
-    public User register(User user) {
-        if (userRepo.existsByEmail(user.getEmail())) {
+    public Users register(Users users) {
+        if (userRepo.existsByEmail(users.getEmail())) {
             throw new RuntimeException("User already exists");
         }
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepo.save(user);
+        users.setPassword(passwordEncoder.encode(users.getPassword()));
+        return userRepo.save(users);
     }
 
     public String login(String email, String password) {
-        User user = userRepo.findByEmail(email)
+        Users users = userRepo.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        if (!passwordEncoder.matches(password, user.getPassword())) {
+        if (!passwordEncoder.matches(password, users.getPassword())) {
             throw new RuntimeException("Invalid password");
         }
 
-        return jwtUtil.generateToken(user.getEmail());
+        return jwtUtil.generateToken(users.getEmail());
     }
 }

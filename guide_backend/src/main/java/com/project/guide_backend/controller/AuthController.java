@@ -1,7 +1,7 @@
 package com.project.guide_backend.controller;
 
 import com.project.guide_backend.Dto.AuthRequest;
-import com.project.guide_backend.modal.User;
+import com.project.guide_backend.modal.User.Users;
 import com.project.guide_backend.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,16 +15,16 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody AuthRequest authRequest) {
-        User user = new User();
-        user.setFullName(authRequest.getFullName());
-        user.setEmail(authRequest.getEmail());
-        user.setPassword(authRequest.getPassword());
-        user.setRole(authRequest.getRole());
+    public ResponseEntity<Users> register(@ModelAttribute AuthRequest authRequest) {
+        Users users = new Users();
+        users.setFullName(authRequest.getFullName());
+        users.setEmail(authRequest.getEmail());
+        users.setPassword(authRequest.getPassword());
+        users.setRole(authRequest.getRole());
 
         try {
-            User savedUser = authService.register(user);
-            return ResponseEntity.ok(savedUser);
+            Users savedUsers = authService.register(users);
+            return ResponseEntity.ok(savedUsers);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().build();
         }
