@@ -18,7 +18,6 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // TODO: Implement login logic
     console.log('Login attempt with:', formData);
   };
 

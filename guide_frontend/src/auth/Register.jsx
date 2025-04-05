@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import axios from '../api/axiosInstance'
+import { useNavigate } from 'react-router-dom';
 import './Register.css';
 
 const Register = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -18,10 +21,29 @@ const Register = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Implement registration logic
-    console.log('Registration attempt with:', formData);
+  
+    if (formData.password !== formData.confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+  
+    const form = new FormData();
+    form.append("fullName", formData.name);
+    form.append("email", formData.email);
+    form.append("password", formData.password);
+    form.append("role", formData.userType);
+  
+    try {
+      const response = await axios.post('/auth/register', form);
+      console.log('Registration successful:', response.data);
+      alert('Registration successful. Please login!');
+      navigate('/login');
+    } catch (error) {
+      console.error('Registration error:', error.response?.data || error.message);
+      alert('Registration failed. Try again.');
+    }
   };
 
   return (
