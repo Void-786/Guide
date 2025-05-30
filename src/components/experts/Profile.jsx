@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FaStar, FaClock, FaUsers, FaComments, FaLinkedin, FaTwitter, FaGlobe, FaCalendarAlt, FaBookmark, FaShare, FaTimes } from 'react-icons/fa';
-import { expertsData } from './ExpertsList';
 import './Profile.css';
 
 const ExpertProfile = () => {
@@ -17,6 +16,8 @@ const ExpertProfile = () => {
   const [sessionType, setSessionType] = useState('video');
   const [sessionDuration, setSessionDuration] = useState('30');
   const [sessionNotes, setSessionNotes] = useState('');
+  const [showChatModal, setShowChatModal] = useState(false);
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     const foundExpert = expertsData.find(e => e.id === parseInt(id));
@@ -71,9 +72,24 @@ const ExpertProfile = () => {
     handleCloseBookingModal();
   };
 
+  const handleOpenChat = () => {
+    setShowChatModal(true);
+  };
+
+  const handleCloseChat = () => {
+    setShowChatModal(false);
+    setMessage('');
+  };
+
   const handleSendMessage = () => {
-    // TODO: Implement messaging functionality
-    console.log('Sending message...');
+    if (message.trim()) {
+      console.log('Sending message:', message);
+      // TODO: Implement actual message sending logic
+      alert('Message sent!');
+      handleCloseChat();
+    } else {
+      alert('Please enter a message.');
+    }
   };
 
   if (!expert) return null;
@@ -335,7 +351,7 @@ const ExpertProfile = () => {
                 Book a Session
               </button>
               <button
-                onClick={handleSendMessage}
+                onClick={handleOpenChat}
                 className="flex-1 border-2 border-blue-600 text-blue-600 py-3 rounded-lg hover:bg-blue-50 transition-colors duration-300 font-semibold flex items-center justify-center"
               >
                 <FaComments className="mr-2" />
@@ -396,6 +412,28 @@ const ExpertProfile = () => {
             <div className="flex justify-end gap-2">
               <button className="px-4 py-2 bg-gray-300 rounded" onClick={handleCloseBookingModal}>Cancel</button>
               <button className="px-4 py-2 bg-blue-600 text-white rounded" onClick={handleConfirmBooking}>Confirm Booking</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Chat Modal */}
+      {showChatModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md max-h-[80vh] overflow-y-auto relative z-50">
+            <button className="absolute top-2 right-2 text-gray-500 hover:text-gray-700" onClick={handleCloseChat}>
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <h2 className="text-2xl font-bold mb-4">Send a Message</h2>
+            <div className="mb-4">
+              <label className="block text-gray-700 mb-2">Message</label>
+              <textarea className="w-full p-2 border rounded" rows="3" value={message} onChange={(e) => setMessage(e.target.value)}></textarea>
+            </div>
+            <div className="flex justify-end gap-2">
+              <button className="px-4 py-2 bg-gray-300 rounded" onClick={handleCloseChat}>Cancel</button>
+              <button className="px-4 py-2 bg-blue-600 text-white rounded" onClick={handleSendMessage}>Send</button>
             </div>
           </div>
         </div>
