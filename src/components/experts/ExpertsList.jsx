@@ -1,54 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ExpertCard from "./expertscard";
-
-export const expertsData = [
-  {
-    id: 1,
-    name: "Iron Man",
-    specialty: "Stark Industry",
-    rating: 4.9,
-    image: "https://i.pinimg.com/236x/a2/6f/02/a26f022f95423ba4f4cfcd68b9a5c489.jpg",
-    experience: "15+ years",
-    expertise: ["AI", "Robotics", "Engineering"],
-    availability: "Available",
-    sessions: 150,
-    reviews: 89
-  },
-  {
-    id: 2,
-    name: "Lucifer Morningstar",
-    specialty: "Healer of Hell",
-    rating: 5.0,
-    image: "https://cdn.manualdohomem.com.br/?w=1200&h=751&key=aHR0cHM6Ly9tYW51YWxkb2hvbWVtbW9kZXJuby5jb20uYnI=&u=%2Ffiles%2F2021%2F05%2Flucifer-4-licoes-de-vida-que-voce-pode-aprender-com-a-serie-lucifer-4-licoes-de-vida-que-voce-pode-aprender-com-a-serie-4.jpg",
-    experience: "10+ years",
-    expertise: ["Psychology", "Leadership", "Problem Solving"],
-    availability: "Available",
-    sessions: 200,
-    reviews: 120
-  },
-  {
-    id: 3,
-    name: "Jon Snow",
-    specialty: "Defending the Wall",
-    rating: 4.9,
-    image: "https://preview.redd.it/what-if-jon-snow-never-took-the-black-v0-iw3inkgg9wac1.jpeg?auto=webp&s=54bb1fd35d8f59d173e2045f200f4409eba8f795",
-    experience: "8+ years",
-    expertise: ["Leadership", "Strategy", "Combat"],
-    availability: "Available",
-    sessions: 100,
-    reviews: 75
-  }
-];
+import axios from 'axios';
 
 const ExpertsList = ({ onSelectExpert }) => {
   const [search, setSearch] = useState("");
   const [selectedExpertise, setSelectedExpertise] = useState("");
   const [sortBy, setSortBy] = useState("rating");
+  const [experts, setExperts] = useState([]);
+
+  useEffect(() => {
+    const fetchExperts = async () => {
+      try {
+        const response = await axios.get('http://localhost:8585/api/experts'); // Ensure this URL is correct
+        setExperts(response.data);
+      } catch (error) {
+        console.error('Error fetching experts:', error);
+      }
+    };
+
+    fetchExperts();
+  }, []);
 
   // Get unique expertise areas
-  const expertiseAreas = [...new Set(expertsData.flatMap(expert => expert.expertise))];
+  const expertiseAreas = [...new Set(experts.flatMap(expert => expert.expertise))];
 
-  const filteredExperts = expertsData
+  const filteredExperts = experts
     .filter((expert) => {
       const matchesSearch = expert.name.toLowerCase().includes(search.toLowerCase()) ||
                           expert.specialty.toLowerCase().includes(search.toLowerCase());
